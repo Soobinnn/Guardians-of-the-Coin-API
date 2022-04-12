@@ -1,11 +1,11 @@
 # ../cicdproject/.gitgub/workflows/custom_config.yml
 name: CI-CD pipeline to AWS
 env:
-  EB_S3_BUCKET_NAME: [ guardians-of-the-coin-app ]
-  EB_APPLICATION_NAME: [ Guardians-of-the-coin ]
-  EB_ENVIRONMENT_NAME: [ Guardiansofthecoin-env ] # 보통 앱 이름에 -env 형태로 자동 생성
-  DEPLOY_PACKAGE_NAME: "django-app-${{ github.sha }}.zip"
-  AWS_REGION_NAME: [ ap-northeast-2 ] # ex) ap-northeast-2
+  EB_S3_BUCKET_NAME: guardians-of-the-coin-app
+  EB_APPLICATION_NAME: Guardians-of-the-coin
+  EB_ENVIRONMENT_NAME: Guardiansofthecoin-env # 보통 앱 이름에 -env 형태로 자동 생성
+  DEPLOY_PACKAGE_NAME: django-app-${{ github.sha }}.zip
+  AWS_REGION_NAME: ap-northeast-2 # ex) ap-northeast-2
 
 on:
   push:
