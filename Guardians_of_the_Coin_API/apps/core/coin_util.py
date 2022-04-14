@@ -38,6 +38,28 @@ def GetTopAmountCoinList(interval,top):
     #코인 리스트를 리턴해 줍니다.
     return dict(islice(dic_sorted_coin_money,top))
 
+# RSI14 기준
+def GetTopRSICoinList(interval,top):
+    print("--------------GetTopRSICoinList Start-------------------")
+
+    Tickers = pyupbit.get_tickers("KRW")
+    
+    dic_coin_money = dict()
+    
+    for ticker in Tickers:
+        try:
+            rsi_value = GetRSI(ticker, interval, 14, -1)
+            dic_coin_money[ticker] = rsi_value
+            time.sleep(0.1)
+        except Exception as e:
+            print("exception:",e)
+            
+    dic_sorted_coin_money = sorted(dic_coin_money.items(), key = lambda x : x[1], reverse= False)
+    print("--------------GetTopCoinList End-------------------")
+
+    #코인 리스트를 리턴해 줍니다.
+    return dict(islice(dic_sorted_coin_money,top))
+    
 #RSI지표 수치를 구해준다. 첫번째: 분봉/일봉 정보, 두번째: 기간, 세번째: 기준 날짜
 # rsi60_min = GetRSI(df_60,14,-1) #현재 캔들 RSI지표
 def GetRSI(ticker, interval, period, st):
@@ -55,8 +77,9 @@ def GetRSI(ticker, interval, period, st):
 
 #이동평균선 수치를 구해준다 첫번째: 분봉/일봉 정보, 두번째: 기간, 세번째: 기준 날짜
 
-def GetMA(ohlcv,period,st):
+def GetMA(ticker, interval,period,st):
     #이 역시 이동평균선을 제대로 구해줍니다.
+    ohlcv = pyupbit.get_ohlcv(ticker,interval)
     close = ohlcv["close"]
     ma = close.rolling(period).mean()
     return float(ma[st])

@@ -27,3 +27,6 @@ class Config(models.Model):
     )
     access_key = models.CharField(db_index=True, max_length=255, unique=True)
     
+    class Meta:
+            db_table = 'user_config'
+            

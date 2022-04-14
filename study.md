@@ -22,3 +22,5 @@ setting.py INSTALLED_APPS에 새로운app 경로 추가
 새로운app/apps.py 수정 
 ex) name = 'Guardians_of_the_Coin_API.apps.coins'
 
+### 종속성
+pip freeze > requirements.txt
