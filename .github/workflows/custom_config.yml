@@ -20,6 +20,9 @@ jobs:
       - name: Git clone on our repo
         uses: actions/checkout@v2
       
+      - name: test
+        run: pwd && ls
+        
       - name: Create zip deployment package
         run: zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
       
