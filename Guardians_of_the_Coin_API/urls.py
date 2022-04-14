@@ -19,5 +19,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/users/',include('Guardians_of_the_Coin_API.apps.users.urls'),name='users')
+    path('api/users/',include('Guardians_of_the_Coin_API.apps.users.urls'),name='users'),
+    path('api/coins/',include('Guardians_of_the_Coin_API.apps.coins.urls'),name='coins'),
 ]

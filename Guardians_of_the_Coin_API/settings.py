@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import json
+import firebase_admin
+from firebase_admin import credentials
+import pymysql
 from django.core.exceptions import ImproperlyConfigured
 
 with open("secrets.json") as f:
@@ -38,8 +41,15 @@ SECRET_KEY = 'django-insecure-st(odkn-u)o93sl-^*nn25s#v7sn0(0(t*cp@l5eieh3@72-(t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['Guardiansofthecoin-env.eba-paaknk92.ap-northeast-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['Guardiansofthecoin-env.eba-paaknk92.ap-northeast-2.elasticbeanstalk.com', '127.0.0.1']
 
+# Firebase Setting
+cred = credentials.Certificate("Guardians_of_the_Coin_API/guardian-of-the-coin-firebase-adminsdk-jx25v-55f5aa9949.json")
+firebase_admin.initialize_app(cred)
+
+# mysql
+pymysql.version_info = (1, 4, 2, 'final', 0)
+pymysql.install_as_MySQLdb()
 
 # Application definition
 
@@ -52,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'Guardians_of_the_Coin_API.apps.users',
+    'Guardians_of_the_Coin_API.apps.coins',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'Guardians_of_the_Coin_API.middleware.ResponseFormattingMiddleware'
 ]
 
 ROOT_URLCONF = 'Guardians_of_the_Coin_API.urls'
@@ -90,8 +102,12 @@ WSGI_APPLICATION = 'Guardians_of_the_Coin_API.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'guardians',
+        'USER': 'admin',
+        'PASSWORD': get_secret("DB_PASSWORD"),
+        'HOST': 'guardians-of-the-coin-db.cuoiyadbhswi.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
